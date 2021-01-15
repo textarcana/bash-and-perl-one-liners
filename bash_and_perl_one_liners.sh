@@ -8,4 +8,12 @@ exit 1
 
 awk '!seen[$0]++' .bash_history > uniq-history # remove duplicate lines in bash history without sorting
 
-tree -dl -L 5 /opt/data # show the skeleton of a filesystem
+# Show the skeleton of a filesystem down to 5 levels deep. -l means follow symlinks.
+
+tree -dl -L 5 '/opt/data'
+
+# Convert a UTC date to the East Coast US time zone. Note the strftime / format
+# string "%FT%T%Z", which makes dateutils(1) print ISO-8601
+# formatted date strings.
+
+date -u --iso-8601=s | dconv --zone America/New_York -f "%FT%T%Z"
