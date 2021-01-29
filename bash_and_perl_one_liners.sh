@@ -17,3 +17,8 @@ tree -dl -L 5 '/opt/data'
 # formatted date strings.
 
 date -u --iso-8601=s | dconv --zone America/New_York -f "%FT%T%Z"
+
+# Clean up output from Google Sheets - remove all control characters
+# except for newlines. Then convert the CSV to JSON.
+
+ mlr --c2j cat file.csv | tr '\r\n' '\275\276' | tr -d "[:cntrl:]" | tr "\275\276" "\r\n" | jq -c . > file.json
