@@ -22,3 +22,8 @@ date -u --iso-8601=s | dconv --zone America/New_York -f "%FT%T%Z"
 # except for newlines. Then convert the CSV to JSON.
 
  mlr --c2j cat file.csv | tr '\r\n' '\275\276' | tr -d "[:cntrl:]" | tr "\275\276" "\r\n" | jq -c . > file.json
+
+# Merge two elements in jq, with values from the right side overriding
+# values from the left side in case of a conflict in jq(1)
+
+ jq -n '{outer_key : {inner_key: "inner value", other_inner_key: "other inner value"}} * {outer_key : {inner_key: "a different value", other_inner_key : "yet another different value"}}'
